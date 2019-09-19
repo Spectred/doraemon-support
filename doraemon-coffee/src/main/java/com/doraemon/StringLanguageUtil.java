@@ -1,5 +1,7 @@
 package com.doraemon;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +46,11 @@ public class StringLanguageUtil {
      * @return 所属语言
      */
     public static String getLanguage(String str) {
-        for (Map.Entry<String, String> entry : LANGUAGE_REGEX_MAP.entrySet()) {
-            if (str.matches(entry.getValue())) {
-                return entry.getKey();
+        if (StringUtils.isNotBlank(str)) {
+            for (Map.Entry<String, String> entry : LANGUAGE_REGEX_MAP.entrySet()) {
+                if (str.matches(entry.getValue())) {
+                    return entry.getKey();
+                }
             }
         }
         return OTHER;

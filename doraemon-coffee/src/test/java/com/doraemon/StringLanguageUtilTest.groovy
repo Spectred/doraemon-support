@@ -15,7 +15,7 @@ class StringLanguageUtilTest extends Specification {
 
         where:
         str       || result
-        "hello"   || ENGLISH
+        "helloWorld"        || ENGLISH
         "哈喽"      || CHINESE
         "哈喽world" || OTHER
     }
