@@ -14,9 +14,9 @@ class StringLanguageUtilTest extends Specification {
         result == StringLanguageUtil.getLanguage(str)
 
         where:
-        str       || result
-        "helloWorld"        || ENGLISH
-        "哈喽"      || CHINESE
-        "哈喽world" || OTHER
+        str          || result
+        "helloWorld" || ENGLISH
+        "哈喽"         || CHINESE
+        "哈喽world"    || OTHER
     }
 }
