@@ -1,6 +1,5 @@
-package com.spectred.netty.client.command;
+package com.spectred.netty.client.console;
 
-import com.spectred.netty.client.command.ConsoleCommand;
 import com.spectred.netty.protocol.request.MessageRequestPacket;
 import io.netty.channel.Channel;
 

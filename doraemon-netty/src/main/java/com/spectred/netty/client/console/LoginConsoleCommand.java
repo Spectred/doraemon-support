@@ -1,4 +1,4 @@
-package com.spectred.netty.client.command;
+package com.spectred.netty.client.console;
 
 import com.spectred.netty.protocol.request.LoginRequestPacket;
 import io.netty.channel.Channel;

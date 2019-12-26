@@ -1,10 +1,5 @@
-package com.spectred.netty.client.command;
+package com.spectred.netty.client.console;
 
-import com.spectred.netty.client.command.ConsoleCommand;
-import com.spectred.netty.client.command.CreateGroupConsoleCommand;
-import com.spectred.netty.client.command.DefaultConsoleCommand;
-import com.spectred.netty.client.command.LogoutConsoleCommand;
-import com.spectred.netty.client.command.SendToUserConsoleCommand;
 import io.netty.channel.Channel;
 
 import java.util.HashMap;
@@ -20,6 +15,10 @@ public class ConsoleCommandManager implements ConsoleCommand {
         consoleCommandMap.put("sendToUser", new SendToUserConsoleCommand());
         consoleCommandMap.put("logout", new LogoutConsoleCommand());
         consoleCommandMap.put("createGroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("joinGroup", new JoinGroupConsoleCommand());
+        consoleCommandMap.put("quitGroup", new QuitGroupConsoleCommand());
+        consoleCommandMap.put("listGroupMembers", new ListGroupMembersConsoleCommand());
+        consoleCommandMap.put("sendToGroup",new SendToGroupConsoleCommand());
     }
 
     @Override

@@ -1,11 +1,19 @@
 package com.spectred.netty.protocol;
 
 import com.spectred.netty.protocol.request.CreateGroupRequestPacket;
+import com.spectred.netty.protocol.request.GroupMessageRequestPacket;
+import com.spectred.netty.protocol.request.JoinGroupRequestPacket;
+import com.spectred.netty.protocol.request.ListGroupMembersRequestPacket;
 import com.spectred.netty.protocol.request.LoginRequestPacket;
+import com.spectred.netty.protocol.request.QuitGroupRequestPacket;
 import com.spectred.netty.protocol.response.CreateGroupResponsePacket;
+import com.spectred.netty.protocol.response.GroupMessageResponsePacket;
+import com.spectred.netty.protocol.response.JoinGroupResponsePacket;
+import com.spectred.netty.protocol.response.ListGroupMembersResponsePacket;
 import com.spectred.netty.protocol.response.LoginResponsePacket;
 import com.spectred.netty.protocol.request.MessageRequestPacket;
 import com.spectred.netty.protocol.response.MessageResponsePacket;
+import com.spectred.netty.protocol.response.QuitGroupResponsePacket;
 import com.spectred.netty.serialize.impl.JSONSerializer;
 import com.spectred.netty.serialize.Serializer;
 import com.spectred.netty.serialize.SerializerAlgorithm;
@@ -18,10 +26,18 @@ import java.util.Objects;
 
 import static com.spectred.netty.command.Command.CREATE_GROUP_REQUEST;
 import static com.spectred.netty.command.Command.CREATE_GROUP_RESPONSE;
+import static com.spectred.netty.command.Command.GROUP_MESSAGE_REQUEST;
+import static com.spectred.netty.command.Command.GROUP_MESSAGE_RESPONSE;
+import static com.spectred.netty.command.Command.JOIN_GROUP_REQUEST;
+import static com.spectred.netty.command.Command.JOIN_GROUP_RESPONSE;
+import static com.spectred.netty.command.Command.LIST_GROUP_MEMBERS_REQUEST;
+import static com.spectred.netty.command.Command.LIST_GROUP_MEMBERS_RESPONSE;
 import static com.spectred.netty.command.Command.LOGIN_REQUEST;
 import static com.spectred.netty.command.Command.LOGIN_RESPONSE;
 import static com.spectred.netty.command.Command.MESSAGE_REQUEST;
 import static com.spectred.netty.command.Command.MESSAGE_RESPONSE;
+import static com.spectred.netty.command.Command.QUIT_GROUP_REQUEST;
+import static com.spectred.netty.command.Command.QUIT_GROUP_RESPONSE;
 
 /**
  * @author SWD
@@ -45,6 +61,14 @@ public class PacketCodeC {
         PACKET_TYPE_MAP.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
         PACKET_TYPE_MAP.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         PACKET_TYPE_MAP.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        PACKET_TYPE_MAP.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        PACKET_TYPE_MAP.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        PACKET_TYPE_MAP.put(QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        PACKET_TYPE_MAP.put(QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        PACKET_TYPE_MAP.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        PACKET_TYPE_MAP.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+        PACKET_TYPE_MAP.put(GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
+        PACKET_TYPE_MAP.put(GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
         SERIALIZER_MAP = new HashMap<>();
         Serializer serializer = new JSONSerializer();

@@ -1,8 +1,12 @@
 package com.spectred.netty.client;
 
 import com.spectred.netty.client.handler.CreateGroupResponseHandler;
+import com.spectred.netty.client.handler.GroupMessageResponseHandler;
+import com.spectred.netty.client.handler.JoinGroupResponseHandler;
+import com.spectred.netty.client.handler.ListGroupMembersResponseHandler;
 import com.spectred.netty.client.handler.LoginResponseHandler;
 import com.spectred.netty.client.handler.MessageResponseHandler;
+import com.spectred.netty.client.handler.QuitGroupResponseHandler;
 import com.spectred.netty.common.Spliter;
 import com.spectred.netty.codec.PacketDecoder;
 import com.spectred.netty.codec.PacketEncoder;
@@ -64,6 +68,14 @@ public class NettyClient {
         pipeline.addLast(new LoginResponseHandler());
         // 群聊处理
         pipeline.addLast(new CreateGroupResponseHandler());
+        // 加群处理
+        pipeline.addLast(new JoinGroupResponseHandler());
+        // 退群处理
+        pipeline.addLast(new QuitGroupResponseHandler());
+        // 获取群成员响应处理器
+        pipeline.addLast(new ListGroupMembersResponseHandler());
+        // 群消息
+        pipeline.addLast(new GroupMessageResponseHandler());
         // 消息逻辑处理
         pipeline.addLast(new MessageResponseHandler());
         // 编码器

@@ -1,6 +1,5 @@
-package com.spectred.netty.client.command;
+package com.spectred.netty.client.console;
 
-import com.spectred.netty.client.command.ConsoleCommand;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 

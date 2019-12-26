@@ -5,8 +5,12 @@ import com.spectred.netty.codec.PacketEncoder;
 import com.spectred.netty.common.Spliter;
 import com.spectred.netty.server.handler.AuthHandler;
 import com.spectred.netty.server.handler.CreateGroupRequestHandler;
+import com.spectred.netty.server.handler.GroupMessageRequestHandler;
+import com.spectred.netty.server.handler.JoinGroupRequestHandler;
+import com.spectred.netty.server.handler.ListGroupMembersRequestHandler;
 import com.spectred.netty.server.handler.LoginRequestHandler;
 import com.spectred.netty.server.handler.MessageRequestHandler;
+import com.spectred.netty.server.handler.QuitGroupRequestHandler;
 import com.spectred.netty.support.NettySupport;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -63,6 +67,14 @@ public class NettyServer {
         pipeline.addLast(new AuthHandler());
         // 创建群聊逻辑处理
         pipeline.addLast(new CreateGroupRequestHandler());
+        // 加入群聊逻辑处理
+        pipeline.addLast(new JoinGroupRequestHandler());
+        // 退群
+        pipeline.addLast(new QuitGroupRequestHandler());
+        // 群组用户列表
+        pipeline.addLast(new ListGroupMembersRequestHandler());
+        // 群消息
+        pipeline.addLast(new GroupMessageRequestHandler());
         // 消息逻辑处理
         pipeline.addLast(new MessageRequestHandler());
         // 编码器
