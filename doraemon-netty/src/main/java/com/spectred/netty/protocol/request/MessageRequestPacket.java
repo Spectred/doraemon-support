@@ -1,12 +1,10 @@
 package com.spectred.netty.protocol.request;
 
-import com.spectred.netty.protocol.command.Command;
+import com.spectred.netty.command.Command;
 import com.spectred.netty.protocol.Packet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 消息请求包

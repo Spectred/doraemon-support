@@ -1,4 +1,4 @@
-package com.doraemon;
+package com.doraemon.util;
 
 import org.apache.commons.lang3.StringUtils;
 

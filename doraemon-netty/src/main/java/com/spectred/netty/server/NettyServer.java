@@ -4,11 +4,9 @@ import com.spectred.netty.codec.PacketDecoder;
 import com.spectred.netty.codec.PacketEncoder;
 import com.spectred.netty.common.Spliter;
 import com.spectred.netty.server.handler.AuthHandler;
-import com.spectred.netty.server.handler.FirstServerHandler;
-import com.spectred.netty.server.handler.LifeCyCleTestHandler;
+import com.spectred.netty.server.handler.CreateGroupRequestHandler;
 import com.spectred.netty.server.handler.LoginRequestHandler;
 import com.spectred.netty.server.handler.MessageRequestHandler;
-import com.spectred.netty.server.handler.ServerHandler;
 import com.spectred.netty.support.NettySupport;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -17,8 +15,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -44,10 +40,10 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        addChannelHandler(pipeline);
+                        addChannelHandlers(pipeline);
                     }
                 });
-        NettySupport.bind(serverBootstrap,BIND_PORT);
+        NettySupport.bind(serverBootstrap, BIND_PORT);
     }
 
 
@@ -56,14 +52,7 @@ public class NettyServer {
      *
      * @param pipeline ChannelPipeline
      */
-    private static void addChannelHandler(ChannelPipeline pipeline) {
-        // channelHandler生命周期测试
-        // pipeline.addLast(new LifeCyCleTestHandler());
-        // channelHandler demo
-        // pipeline.addLast(new FirstServerHandler());
-        // channelHandler demo
-        //pipeline.addLast(new ServerHandler());
-
+    private static void addChannelHandlers(ChannelPipeline pipeline) {
         // 拆包器,拒绝非本协议连接
         pipeline.addLast(new Spliter());
         // 解码器
@@ -72,6 +61,8 @@ public class NettyServer {
         pipeline.addLast(new LoginRequestHandler());
         // 权限验证逻辑处理
         pipeline.addLast(new AuthHandler());
+        // 创建群聊逻辑处理
+        pipeline.addLast(new CreateGroupRequestHandler());
         // 消息逻辑处理
         pipeline.addLast(new MessageRequestHandler());
         // 编码器

@@ -1,10 +1,11 @@
 package com.doraemon
 
+import com.doraemon.util.StringLanguageUtil
 import spock.lang.*
 
-import static com.doraemon.StringLanguageUtil.CHINESE
-import static com.doraemon.StringLanguageUtil.ENGLISH
-import static com.doraemon.StringLanguageUtil.OTHER
+import static com.doraemon.util.StringLanguageUtil.CHINESE
+import static com.doraemon.util.StringLanguageUtil.ENGLISH
+import static com.doraemon.util.StringLanguageUtil.OTHER
 
 class StringLanguageUtilTest extends Specification {
 

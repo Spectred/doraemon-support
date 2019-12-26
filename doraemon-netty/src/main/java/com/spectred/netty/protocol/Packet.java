@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author SWD
  */
 @Data
-public abstract class Packet implements Serializable {
+public abstract class Packet  {
 
     /**
      * 协议版本

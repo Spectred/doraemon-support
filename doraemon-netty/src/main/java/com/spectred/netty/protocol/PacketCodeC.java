@@ -1,6 +1,8 @@
 package com.spectred.netty.protocol;
 
+import com.spectred.netty.protocol.request.CreateGroupRequestPacket;
 import com.spectred.netty.protocol.request.LoginRequestPacket;
+import com.spectred.netty.protocol.response.CreateGroupResponsePacket;
 import com.spectred.netty.protocol.response.LoginResponsePacket;
 import com.spectred.netty.protocol.request.MessageRequestPacket;
 import com.spectred.netty.protocol.response.MessageResponsePacket;
@@ -14,10 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.spectred.netty.protocol.command.Command.LOGIN_REQUEST;
-import static com.spectred.netty.protocol.command.Command.LOGIN_RESPONSE;
-import static com.spectred.netty.protocol.command.Command.MESSAGE_REQUEST;
-import static com.spectred.netty.protocol.command.Command.MESSAGE_RESPONSE;
+import static com.spectred.netty.command.Command.CREATE_GROUP_REQUEST;
+import static com.spectred.netty.command.Command.CREATE_GROUP_RESPONSE;
+import static com.spectred.netty.command.Command.LOGIN_REQUEST;
+import static com.spectred.netty.command.Command.LOGIN_RESPONSE;
+import static com.spectred.netty.command.Command.MESSAGE_REQUEST;
+import static com.spectred.netty.command.Command.MESSAGE_RESPONSE;
 
 /**
  * @author SWD
@@ -39,16 +43,15 @@ public class PacketCodeC {
         PACKET_TYPE_MAP.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         PACKET_TYPE_MAP.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         PACKET_TYPE_MAP.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        PACKET_TYPE_MAP.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        PACKET_TYPE_MAP.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
         SERIALIZER_MAP = new HashMap<>();
         Serializer serializer = new JSONSerializer();
         SERIALIZER_MAP.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(ByteBufAllocator alloc, Packet packet) {
-        // 1. 创建ByteBuf对象
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
-
+    public void encode(ByteBuf byteBuf, Packet packet) {
         // 2. 序列化JavaBean
         byte[] bytes = SerializerAlgorithm.DEFAULT.serialize(packet);
 
@@ -59,22 +62,6 @@ public class PacketCodeC {
         byteBuf.writeByte(packet.getCommand());
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
-        return byteBuf;
-    }
-
-
-    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
-        // 2. 序列化JavaBean
-        byte[] bytes = SerializerAlgorithm.DEFAULT.serialize(packet);
-
-        // 3. 实际编码过程
-        byteBuf.writeInt(MAGIC_NUMBER);
-        byteBuf.writeByte(packet.getVersion());
-        byteBuf.writeByte(SerializerAlgorithm.DEFAULT.getSerializerAlgorithm());
-        byteBuf.writeByte(packet.getCommand());
-        byteBuf.writeInt(bytes.length);
-        byteBuf.writeBytes(bytes);
-        return byteBuf;
     }
 
     public Packet decode(ByteBuf byteBuf) {
@@ -110,4 +97,5 @@ public class PacketCodeC {
 
         return PACKET_TYPE_MAP.get(command);
     }
+
 }

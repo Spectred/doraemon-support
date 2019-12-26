@@ -1,4 +1,4 @@
-package com.doraemon;
+package com.doraemon.util;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

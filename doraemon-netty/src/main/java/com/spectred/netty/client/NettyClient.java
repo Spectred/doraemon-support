@@ -1,38 +1,23 @@
 package com.spectred.netty.client;
 
-import com.spectred.netty.client.handler.ClientHandler;
-import com.spectred.netty.client.handler.FirstClientHandler;
+import com.spectred.netty.client.handler.CreateGroupResponseHandler;
 import com.spectred.netty.client.handler.LoginResponseHandler;
 import com.spectred.netty.client.handler.MessageResponseHandler;
 import com.spectred.netty.common.Spliter;
-import com.spectred.netty.protocol.PacketCodeC;
 import com.spectred.netty.codec.PacketDecoder;
 import com.spectred.netty.codec.PacketEncoder;
-import com.spectred.netty.protocol.request.LoginRequestPacket;
-import com.spectred.netty.protocol.request.MessageRequestPacket;
 import com.spectred.netty.support.NettySupport;
-import com.spectred.netty.support.ThreadPoolSupport;
-import com.spectred.netty.util.LoginUtil;
-import com.spectred.netty.util.SessionUtil;
+
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
+
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Netty Demo Client
@@ -71,17 +56,14 @@ public class NettyClient {
      * @param pipeline ChannelPipeline
      */
     private static void addChannelHandler(ChannelPipeline pipeline) {
-        // channelHandler demo
-        // pipeline.addLast(new FirstClientHandler());
-        // channelHandler demo
-        // pipeline.addLast(new ClientHandler());
-
         // 拆包器,拒绝非本协议连接
         pipeline.addLast(new Spliter());
         // 解码器
         pipeline.addLast(new PacketDecoder());
         // 登录逻辑处理
         pipeline.addLast(new LoginResponseHandler());
+        // 群聊处理
+        pipeline.addLast(new CreateGroupResponseHandler());
         // 消息逻辑处理
         pipeline.addLast(new MessageResponseHandler());
         // 编码器

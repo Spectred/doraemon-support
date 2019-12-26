@@ -1,5 +1,7 @@
 package com.spectred.netty.support;
 
+import com.spectred.netty.client.command.LoginConsoleCommand;
+import com.spectred.netty.client.command.ConsoleCommandManager;
 import com.spectred.netty.protocol.request.LoginRequestPacket;
 import com.spectred.netty.protocol.request.MessageRequestPacket;
 import com.spectred.netty.util.SessionUtil;
@@ -83,33 +85,45 @@ public class NettySupport {
 
 
     private static void startConsoleThread(Channel channel) {
-        Scanner sc = new Scanner(System.in);
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
 
+        Scanner sc = new Scanner(System.in);
         Runnable runnable = () -> {
             while (!Thread.interrupted()) {
                 if (SessionUtil.hasLogin(channel)) {
-                    System.out.print("输入用户名登录: ");
-                    String username = sc.nextLine();
-                    loginRequestPacket.setUserName(username);
-                    // 密码使用默认的
-                    loginRequestPacket.setPassword("pwd");
-                    // 发送登录数据包
-                    channel.writeAndFlush(loginRequestPacket);
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        log.error(e.getMessage(), e);
-                    }
+                    consoleCommandManager.exec(sc, channel);
                 } else {
-                    System.out.println("接收消息的用户ID: ");
-                    String toUserId = sc.next();
-                    System.out.println("输入消息内容: ");
-                    String message = sc.next();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                    loginConsoleCommand.exec(sc, channel);
                 }
             }
         };
+
+//        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+//        Runnable runnable = () -> {
+//            while (!Thread.interrupted()) {
+//                if (!SessionUtil.hasLogin(channel)) {
+//                    System.out.print("输入用户名登录: ");
+//                    String username = sc.nextLine();
+//                    loginRequestPacket.setUserName(username);
+//                    // 密码使用默认的
+//                    loginRequestPacket.setPassword("pwd");
+//                    // 发送登录数据包
+//                    channel.writeAndFlush(loginRequestPacket);
+//                    try {
+//                        TimeUnit.SECONDS.sleep(1);
+//                    } catch (InterruptedException e) {
+//                        log.error(e.getMessage(), e);
+//                    }
+//                } else {
+//                    System.out.println("接收消息的用户ID: ");
+//                    String toUserId = sc.next();
+//                    System.out.println("输入消息内容: ");
+//                    String message = sc.next();
+//                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+//                }
+//            }
+//        };
         ExecutorService executorService = ThreadPoolSupport.newCustomThreadPool(1);
         executorService.execute(runnable);
     }
