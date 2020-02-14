@@ -3,17 +3,28 @@ package com.spectred.netty.server.handler;
 import com.spectred.netty.common.Session;
 import com.spectred.netty.protocol.request.LoginRequestPacket;
 import com.spectred.netty.protocol.response.LoginResponsePacket;
-import com.spectred.netty.support.SnowFlakeSupport;
 import com.spectred.netty.util.IdUtils;
 import com.spectred.netty.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.UUID;
 
+/**
+ * ChannelHandler.Sharable  表明该 handler 是可以多个 channel 共享的
+ *
+ * @author SWD
+ */
 @Slf4j
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+    protected LoginRequestHandler() {
+
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {

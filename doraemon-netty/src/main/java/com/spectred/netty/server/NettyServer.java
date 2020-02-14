@@ -6,10 +6,12 @@ import com.spectred.netty.common.Spliter;
 import com.spectred.netty.server.handler.AuthHandler;
 import com.spectred.netty.server.handler.CreateGroupRequestHandler;
 import com.spectred.netty.server.handler.GroupMessageRequestHandler;
+import com.spectred.netty.server.handler.IMHandler;
 import com.spectred.netty.server.handler.JoinGroupRequestHandler;
 import com.spectred.netty.server.handler.ListGroupMembersRequestHandler;
 import com.spectred.netty.server.handler.LoginRequestHandler;
 import com.spectred.netty.server.handler.MessageRequestHandler;
+import com.spectred.netty.server.handler.PacketCodecHandler;
 import com.spectred.netty.server.handler.QuitGroupRequestHandler;
 import com.spectred.netty.support.NettySupport;
 import io.netty.bootstrap.ServerBootstrap;
@@ -59,26 +61,31 @@ public class NettyServer {
     private static void addChannelHandlers(ChannelPipeline pipeline) {
         // 拆包器,拒绝非本协议连接
         pipeline.addLast(new Spliter());
+
+        pipeline.addLast(PacketCodecHandler.INSTANCE);
         // 解码器
-        pipeline.addLast(new PacketDecoder());
+//        pipeline.addLast(new PacketDecoder());
         // 登录逻辑处理
-        pipeline.addLast(new LoginRequestHandler());
+        pipeline.addLast(LoginRequestHandler.INSTANCE);
         // 权限验证逻辑处理
-        pipeline.addLast(new AuthHandler());
+        pipeline.addLast(AuthHandler.INSTANCE);
+
+        pipeline.addLast(IMHandler.INSTANCE);
+
         // 创建群聊逻辑处理
-        pipeline.addLast(new CreateGroupRequestHandler());
-        // 加入群聊逻辑处理
-        pipeline.addLast(new JoinGroupRequestHandler());
-        // 退群
-        pipeline.addLast(new QuitGroupRequestHandler());
-        // 群组用户列表
-        pipeline.addLast(new ListGroupMembersRequestHandler());
-        // 群消息
-        pipeline.addLast(new GroupMessageRequestHandler());
-        // 消息逻辑处理
-        pipeline.addLast(new MessageRequestHandler());
+//        pipeline.addLast(CreateGroupRequestHandler.INSTANCE);
+//        // 加入群聊逻辑处理
+//        pipeline.addLast(JoinGroupRequestHandler.INSTANCE);
+//        // 退群
+//        pipeline.addLast(QuitGroupRequestHandler.INSTANCE);
+//        // 群组用户列表
+//        pipeline.addLast(ListGroupMembersRequestHandler.INSTANCE);
+//        // 群消息
+//        pipeline.addLast(GroupMessageRequestHandler.INSTANCE);
+//        // 消息逻辑处理
+        pipeline.addLast(MessageRequestHandler.INSTANCE);
         // 编码器
-        pipeline.addLast(new PacketEncoder());
+//        pipeline.addLast(new PacketEncoder());
     }
 
 }

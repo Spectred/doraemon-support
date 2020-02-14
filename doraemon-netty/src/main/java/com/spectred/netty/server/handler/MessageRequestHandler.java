@@ -5,14 +5,21 @@ import com.spectred.netty.protocol.request.MessageRequestPacket;
 import com.spectred.netty.protocol.response.MessageResponsePacket;
 import com.spectred.netty.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
+@ChannelHandler.Sharable
 @Slf4j
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static final MessageRequestHandler INSTANCE =new MessageRequestHandler();
+
+    protected MessageRequestHandler(){}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) throws Exception {
         log.info("服务端收到客户端消息:" + messageRequestPacket.getMessage());
