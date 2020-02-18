@@ -17,6 +17,9 @@ import java.util.Objects;
  */
 public class BeanUtils {
 
+    private BeanUtils() {
+    }
+
     /**
      * Java Bean -> Map
      *

@@ -12,16 +12,6 @@ public class RichText {
 
     public static void main(String[] args) {
 
-        new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
-                System.out.print("1");
-            }
-        }).start();
-
-        for (int i = 0; i < 10; i++) {
-            System.out.print("0");
-        }
-
         String html = "<h3>手机银行测试不带标题</h3><p>asdfasdfasdfas</p><p>BBBBBf发送</p> <p><a href='www' >立即申请</a></p>";
         Document parse = Jsoup.parse(html);
 

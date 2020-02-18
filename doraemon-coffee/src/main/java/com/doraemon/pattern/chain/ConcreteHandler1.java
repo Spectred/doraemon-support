@@ -10,7 +10,7 @@ public class ConcreteHandler1 implements Handler {
 
     @Override
     public String handle(String msg) {
-        if (Thread.currentThread().getName().equals("A")){
+        if ("A".equals(Thread.currentThread().getName())){
             ChainSupport.brokeChain();
         }
         return msg+"-1";
