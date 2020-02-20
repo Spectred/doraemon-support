@@ -1,8 +1,11 @@
 package com.doraemon.threads.pool;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Java常见线程池{@link java.util.concurrent.Executors}-测试类
@@ -11,11 +14,12 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class ExecutorsTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        testNewFixedThreadPool(3);
 //        testNewSingleThreadExecutor();
 //        testNewCachedThreadPool();
         testNewScheduledThreadPool(5);
+
     }
 
     /**
@@ -82,13 +86,13 @@ public class ExecutorsTest {
      * @param corePoolSize
      */
     private static void testNewScheduledThreadPool(int corePoolSize) {
-        ExecutorService executorService = Executors.newScheduledThreadPool(corePoolSize);
+        var executorService = Executors.newScheduledThreadPool(corePoolSize);
+        System.out.println(LocalDateTime.now());
 
-        try {
-            printThreadName(executorService);
-        } finally {
-            executorService.shutdown();
-        }
+        executorService.scheduleAtFixedRate(
+                () -> System.out.println(LocalDateTime.now() + " - " + Thread.currentThread().getName()),
+                3, 5, TimeUnit.SECONDS);
+
         System.out.println(executorService.isShutdown());
     }
 
