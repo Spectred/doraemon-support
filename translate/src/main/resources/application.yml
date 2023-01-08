@@ -5,3 +5,7 @@ server:
 spring:
   application:
     name: doraemon-translate
+  data:
+    redis:
+      host: localhost
+      port: 6379

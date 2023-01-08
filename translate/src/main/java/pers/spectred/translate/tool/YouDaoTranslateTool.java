@@ -27,9 +27,9 @@ public final class YouDaoTranslateTool {
 
     private static final String YOUDAO_URL = "https://openapi.youdao.com/api";
 
-    private static final String APP_KEY = "";
+    private static final String APP_KEY = "6e3f32dfc55beb49";
 
-    private static final String APP_SECRET = "";
+    private static final String APP_SECRET = "jmamKzO0Aodh9vYjy4B8wImzpzrHWf2a";
 
     private YouDaoTranslateTool() {
     }
