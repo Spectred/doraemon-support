@@ -1,6 +1,7 @@
 package pers.spectred.translate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pers.spectred.translate.dto.YouDaoResponse;
+import pers.spectred.translate.observer.event.TranslateSuccessEvent;
 import pers.spectred.translate.tool.TranslateTools;
 
 import java.util.*;
@@ -20,10 +22,13 @@ public class TranslateController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    public ApplicationEventPublisher applicationEventPublisher;
+
     @GetMapping
     public YouDaoResponse translate(@RequestParam("word") String word) {
         YouDaoResponse translate = TranslateTools.translate(word, 0);
-        stringRedisTemplate.opsForZSet().incrementScore("word-rank", word, 1D);
+        applicationEventPublisher.publishEvent(new TranslateSuccessEvent(translate));
         return translate;
     }
 

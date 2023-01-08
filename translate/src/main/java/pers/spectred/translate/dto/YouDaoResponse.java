@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class YouDaoResponse {
 
+    private String query;
+
     private String[] returnPhrase;
 
     private String[] translation;
