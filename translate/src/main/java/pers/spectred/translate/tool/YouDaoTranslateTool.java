@@ -72,7 +72,7 @@ public final class YouDaoTranslateTool {
         String sign = getDigest(signStr);
 
         Map<String, String> params = new HashMap<>(16);
-        params.put("from", "en");
+        params.put("from", "auto");
         params.put("to", "zh-CHS");
         params.put("signType", "v3");
         params.put("curtime", curtime);

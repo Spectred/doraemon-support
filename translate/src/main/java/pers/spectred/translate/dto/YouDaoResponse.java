@@ -15,6 +15,8 @@ public class YouDaoResponse {
 
     private Basic basic;
 
+    private Integer count;
+
     @Data
     public static class Basic {
         private String[] explains;
