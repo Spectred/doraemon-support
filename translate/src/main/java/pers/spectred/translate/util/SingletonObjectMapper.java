@@ -12,11 +12,21 @@ public enum SingletonObjectMapper {
     /**
      *
      */
-    INSTANCE;
+    INSTANCE(get());
+    
+    private final ObjectMapper objectMapper;
 
-    public ObjectMapper get() {
+    SingletonObjectMappper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    private static ObjectMapper get() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return objectMapper;
+    }
+    
+    public ObjectMapper getObjectMapper() {
         return objectMapper;
     }
 }
